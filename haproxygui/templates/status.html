@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Status</h1>
+{% endblock %}
+{% block panelheading %}
+                            Status
+{% endblock %}
+{% block content %}
+                        <div class="panel-body" id="outer">
+                            <div class="row" >
+                                <div class="col-lg-6" >
+                                	<iframe id="inner" src="http://{{haproxyhost}}" frameborder="0"></iframe>
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                        
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#inner").width($("#outer").width());
+    $("#inner").height($(window).height() - $("#inner").offset().top);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Error</h1>
+{% endblock %}
+{% block panelheading %}
+                    <div style="color:red">       {{ errmsg|default_if_none:"" }} </div>
+{% endblock %}
+{% block content %}
+
+{% endblock %}

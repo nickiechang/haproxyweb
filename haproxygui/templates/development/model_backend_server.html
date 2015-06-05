@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Backend Server</h1>
+{% endblock %}
+{% block panelheading %}
+                            Backend Server Table
+{% endblock %}
+
+{% block content %}
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Backend Name</th>
+                                            <th>Address</th>
+                                            <th>Port</th>
+                                            <th>Max Connection</th>
+                                            <th><a href="{% url 'haproxygui.views.action_backend_server_detail' action='add' backend_name=backend_name backend_server_name='new' %}"<button type="button" class="btn btn-primary">Add</button></a></th>
+{% comment %}
+                                            <th><a href="../../add/{{ backend_name }}/server_detail/none/"><button type="button" class="btn btn-primary">Add</button></a></th>
+{% endcomment %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in rows %}
+                                        <tr class="odd gradeX">
+                                            <td><a href="{% url 'haproxygui.views.backend_server_detail' backend_server_name=row.name %}">{{ row.name }}</a></td>
+{% comment %}
+                                            <td><a href="{% url 'haproxygui.views.formset_server_detail' server_name=row.name %}">{{ row.name }}</a></td>
+                                            <td><a href="../../server_detail/{{ row.name }}/">{{ row.name }}</a></td>
+{% endcomment %}
+                                            <td>{{ row.backend.name }}</td>
+                                            <td>{{ row.address }}</td>
+                                            <td class="center">{{ row.port }}</td>
+                                            <td class="center">{{ row.maxconn }}</td>
+                                            <td><a href="{% url 'haproxygui.views.action_backend_server_detail' action='delete' backend_name=row.backend.name backend_server_name=row.name %}">Delete</a></td>
+{% comment %}
+                                            <td><a href="../../delete/{{ row.backend.name }}/server_detail/{{ row.name }}/">Delete</a></td>
+{% endcomment %}
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+{% endblock %}

@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@ 
+	
+#override_dh_install:
+#	dh_install	
+#	cp -r haproxygui debian/haproxyweb/usr/share/haproxyweb/
+#	cp -r haproxyweb debian/haproxyweb/usr/share/haproxyweb/
+#	cp -r manage.py debian/haproxyweb/usr/share/haproxyweb/

@@ -1,0 +1,11 @@
+debian/haproxyweb.conf etc/apache2/conf-available
+debian/haproxywebsite.conf etc/apache2/sites-enabled
+debian/haproxywebsite.conf etc/apache2/sites-available
+debian/haproxywebsudoer etc/sudoers.d
+haproxygui usr/share/haproxyweb
+haproxyweb usr/share/haproxyweb
+manage.py  usr/share/haproxyweb
+haproxyweb.ini  usr/share/haproxyweb
+Django-1.8.1.tar.gz tmp
+remove_django.py  tmp
+haproxy.cfg tmp

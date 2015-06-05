@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">SSL Certificates File List</h1>
+{% endblock %}
+{% block panelheading %}
+                            SSL Certificates File List
+{% endblock %}
+{% block content %}
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>SSL Certificates File</th>
+                                            <th><a href="{% url 'sslfile_add' %}"<button type="button" class="btn btn-primary">Import</button></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in object_list %}
+                                        <tr class="odd gradeX">
+                                            <td class="center">{{ row.name }}</td>
+                                            <td class="center">{{ row.sslfile }}</td>
+                                            <td><a href="{% url 'sslfile_delete' pk=row.id %}">Delete</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Frontend</h1>
+{% endblock %}
+{% block panelheading %}
+                            Frontend Table
+{% endblock %}
+{% block content %}
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Bind Addresses</th>
+                                            <th>Default Backend</th>
+                                            <th>Mode</th>
+                                            <th><a href="{% url "frontend_add" %}"<button type="button" class="btn btn-primary">Add</button></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in object_list %}
+                                        <tr class="odd gradeX">
+                                            <td><a href="{% url "frontend_update" pk=row.name %}">{{ row.name }}</a></td>
+                                            <td><a href="{% url "frontend_bind_list" frontend_name=row.name %}">Bind Addresses ...</a></td>
+                                            <td><a href="{% url "backend_update" pk=row.default_backend.name %}">{{ row.default_backend.name }}</a></td>
+                                            <td>{{ row.mode }}</td>
+                                            <td><a href="{% url "frontend_delete" pk=row.name %}">Delete</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

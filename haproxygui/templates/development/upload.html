@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Upload SSL Certificates File</h1>
+{% endblock %}
+{% block panelheading %}
+                            Upload SSL Certificates File
+{% endblock %}
+{% block content %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <br/>
+    <input type="submit" value="Submit" />
+</form>
+
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

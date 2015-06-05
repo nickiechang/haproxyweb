@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Default</h1>
+{% endblock %}
+{% block panelheading %}
+                            Default settings
+{% endblock %}
+
+{% block content %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form" action="{% url 'haproxygui.views.default'%}" method="post">
+                                        {% csrf_token %}
+                                        {% for row in rows %}
+                                        <div class="form-group">
+                                            <label>Max Connection</label>
+                                            <input class="form-control" placeholder="{{row.maxconn}}" value="{{row.maxconn}}">
+                                            <label>Timeout connect</label>
+                                            <input class="form-control" placeholder="{{row.timeout_connect}}" value="{{row.timeout_connect}}">
+                                            <label>Timeout client</label>
+                                            <input class="form-control" placeholder="{{row.timeout_client}}" value="{{row.timeout_client}}">
+                                            <label>Timeout server</label>
+                                            <input class="form-control" placeholder="{{row.timeout_server}}" value="{{row.timeout_server}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.option_redispatch %}
+                                                    <input type="checkbox" value="{{row.option_redispatch}}" checked>Option redispatch
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.option_redispatch}}" >Option redispatch
+                                                    {% endif %}
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.option_httpclose %}
+                                                    <input type="checkbox" value="{{row.option_httpclose}}" checked>Option httpclose
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.option_httpclose}}" >Option httpclose
+                                                    {% endif %}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        <button type="submit" class="btn btn-default">Apply</button>
+                                        <button type="reset" class="btn btn-default">Reset</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

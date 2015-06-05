@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Backend Details</h1>
+{% endblock %}
+{% block panelheading %}
+                            Backend Details
+{% endblock %}
+
+{% block content %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+
+                                    <form role="form" action="{% url 'haproxygui.views.backend_detail'%}" method="post">
+                                        {% csrf_token %}
+                                        {% for row in rows %}
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input class="form-control" value="{{row.name}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Balance Mode</label>
+                                            <select class="form-control">
+                                            	{% for tuple0,tuple1 in row.choices_balance_method %}
+                                                    {% if tuple0 = row.balance_method %}
+                                                		<option selected>{{ tuple1 }}</option>
+                                                    {% else %}
+                                                		<option>{{ tuple1 }}</option>
+                                                	{% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mode</label>
+                                            <select class="form-control">
+                                            	{% for tuple0,tuple1 in row.choices_mode %}
+                                                    {% if tuple0 = row.mode %}
+                                                		<option selected>{{ tuple1 }}</option>
+                                                    {% else %}
+                                                		<option>{{ tuple1 }}</option>
+                                                	{% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.forwardfor %}
+                                                    <input type="checkbox" value="{{row.forwardfor}}" checked>Forwardfor
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.forwardfor}}" >Forwardfor
+                                                    {% endif %}
+                                                </label>
+	                                        </div>
+	                                        <label>Forwardfor expect</label>
+	                                        <input class="form-control" value="{{row.forwardfor_expect}}">
+	                                        <label>Forwardfor header</label>
+	                                        <input class="form-control" value="{{row.forwardfor_header}}">
+                                            <label>Cookie</label>
+                                            <select class="form-control">
+                                            	{% for tuple0,tuple1 in row.choices_cookie %}
+                                                    {% if tuple0 = row.mode %}
+                                                		<option selected>{{ tuple1 }}</option>
+                                                    {% else %}
+                                                		<option>{{ tuple1 }}</option>
+                                                	{% endif %}
+                                                {% endfor %}
+                                            </select>
+	                                        <label>Cookie Name</label>
+	                                        <input class="form-control" value="{{row.cookie_name}}">
+	                                        <label>Cookie Domain</label>
+	                                        <input class="form-control" value="{{row.cookie_domain}}">
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.cookie_option_indirect %}
+                                                    <input type="checkbox" value="{{row.cookie_option_indirect}}" checked>Cookie option indirect
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.cookie_option_indirect}}" >Cookie option indirect
+                                                    {% endif %}
+                                                </label>
+	                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.cookie_option_nocache %}
+                                                    <input type="checkbox" value="{{row.cookie_option_nocache}}" checked>Cookie option nocache
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.cookie_option_nocache}}" >Cookie option nocache
+                                                    {% endif %}
+                                                </label>
+	                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    {% if row.cookie_option_postonly %}
+                                                    <input type="checkbox" value="{{row.cookie_option_postonly}}" checked>Cookie option postonly
+                                                    {% else %}
+                                                    <input type="checkbox" value="{{row.cookie_option_postonly}}" >Cookie option postonly
+                                                    {% endif %}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            {% for r in row.backend_check.all %}
+		                                    <label>Timeout check</label>
+		                                    <input class="form-control" value="{{r.timeout_check}}">
+                                            <div class="checkbox">
+                                                <label>
+	                                                {% if r.ssl_hello_check %}
+	                                                <input type="checkbox" value="{{r.ssl_hello_check}}" checked>SSL hello check
+	                                                {% else %}
+	                                                <input type="checkbox" value="{{r.ssl_hello_check}}" >SSL hello check
+	                                                {% endif %}
+                                                </label>
+ 	                                        </div>
+                                            <div class="checkbox">
+                                                <label>
+	                                                {% if r.http_check %}
+	                                                <input type="checkbox" id="httpchk" value="{{r.http_check}}" checked>Http check
+	                                                {% else %}
+	                                                <input type="checkbox" id="httpchk" value="{{r.http_check}}" >Http check
+	                                                {% endif %}
+                                                </label>
+ 	                                        </div>
+ 	                                        <div id="httpmethod">
+		                                        <label>Http check disable on 404</label>
+		                                        <div class="form-group">
+		                                            <label class="radio-inline">
+		                                                <input type="radio" name="Httpcheckdisableon404" id="Httpcheckdisableon4041" value="{{r.disable_on_404}}"
+		                                                {% if r.http_check_expect_not = 1 %} 
+		                                                checked
+		                                                {% endif %}
+		                                                >Disable on 404
+		                                            </label>
+		                                            <label class="radio-inline">
+		                                                <input type="radio" name="Httpcheckdisableon404" id="Httpcheckdisableon4042" value="{{r.disable_on_404}}"
+		                                                {% if r.http_check_expect_not = 0 %} 
+		                                                checked
+		                                                {% endif %}
+		                                                >Ignore 404
+		                                            </label>
+		                                        </div>
+	 	                                        <label>Http method</label>
+	                                            <select class="form-control">
+	                                            	{% for tuple0,tuple1 in r.choices_http_method %}
+	                                                    {% if tuple0 = r.http_method %}
+	                                                		<option selected>{{ tuple1 }}</option>
+	                                                    {% else %}
+	                                                		<option>{{ tuple1 }}</option>
+	                                                	{% endif %}
+	                                                {% endfor %}
+	                                            </select>
+	                                            <label>Http url</label>
+	                                            <input class="form-control" value="{{r.http_url}}">
+	 	                                        <label>Http check expect</label>
+	                                            <select class="form-control">
+	                                            	{% for tuple0,tuple1 in r.choices_http_check_expect %}
+	                                                    {% if tuple0 = r.http_check_expect %}
+	                                                		<option selected>{{ tuple1 }}</option>
+	                                                    {% else %}
+	                                                		<option>{{ tuple1 }}</option>
+	                                                	{% endif %}
+	                                                {% endfor %}
+	                                            </select>
+	                                            <label>Http check equal</label>
+		                                        <div class="form-group">
+		                                            <label class="radio-inline">
+		                                                <input type="radio" name="Httpcheckequal" id="Httpcheckequal1" value="{{r.http_check_expect_not}}"
+		                                                {% if r.http_check_expect_not = 0 %} 
+		                                                checked
+		                                                {% endif %}
+		                                                >equal
+		                                            </label>
+		                                            <label class="radio-inline">
+		                                                <input type="radio" name="Httpcheckequal" id="Httpcheckequal2" value="{{r.http_check_expect_not}}"
+		                                                {% if r.http_check_expect_not = 1 %} 
+		                                                checked
+		                                                {% endif %}
+		                                                >not equal
+		                                            </label>
+		                                        </div>
+	                                            <label>Http check expect value</label>
+	                                            <input class="form-control" value="{{r.http_check_expect_value}}">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% endfor %}
+                                        <button type="submit" class="btn btn-default">Apply</button>
+                                        <button type="reset" class="btn btn-default">Reset</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                                    
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function(){
+	$("#httpchk").click(function() {
+		if ($('#httpchk').is(':checked')) {
+	        $("#httpmethod").show();
+	    } else {
+	        $("#httpmethod").hide();
+	    }
+	});
+});
+</script>
+{% endblock %}

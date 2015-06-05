@@ -1,0 +1,1 @@
+haproxyweb ALL=(ALL) NOPASSWD:ALL

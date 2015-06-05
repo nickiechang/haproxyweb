@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Frontend Bind Option</h1>
+{% endblock %}
+{% block panelheading %}
+                            Frontend Bind Option
+{% endblock %}
+{% block content %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <form role="form" method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                        <br/>
+                                        <button type="submit" class="btn btn-primary">Apply</button>
+                                        <a href="{% url "frontend_bind_list" frontend_name=form.frontend.value%}"<button type="button" class="btn btn-default">Return To Frontend Bind List</button></a>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

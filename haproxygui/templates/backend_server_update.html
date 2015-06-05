@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Backend Server</h1>
+{% endblock %}
+{% block panelheading %}
+                            Backend Server
+{% endblock %}
+{% block content %}
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                    <form role="form" method="post">
+                                        {% csrf_token %}
+                                         <ul class="nav nav-tabs">
+			                                <li class="active"><a href="#server" data-toggle="tab">Server</a></li>
+			                                <li><a href="#serveroption" data-toggle="tab">Server Option</a></li>
+			                            </ul>
+			                            <div class="tab-content">
+			                                <div class="tab-pane fade in active" id="server">
+			                                	{{ form.name.label_tag }} {{ form.name }}
+			                                	{{ form.address.label_tag }} {{ form.address }}
+			                                	{{ form.port.label_tag }} {{ form.port }}
+			                                	{{ form.weight.label_tag }} {{ form.weight }}
+			                                	{{ form.maxconn.label_tag }} {{ form.maxconn }}
+			                                	{{ form.backend }}
+			                                </div>
+			                                <div class="tab-pane fade" id="serveroption">
+			                                	{{ form.check.label_tag }} {{ form.check }}
+			                                	{{ form.check_inter.label_tag }} {{ form.check_inter }}
+			                                	{{ form.check_fall.label_tag }} {{ form.check_fall }}
+			                                	{{ form.cookie_value.label_tag }} {{ form.cookie_value }}
+			                                </div>
+			                            </div>
+{% comment %}		                            
+                                        {% for field in form %}
+            								{{ field.label_tag }} {{ field }}
+        								{% endfor %}
+{% endcomment %}
+{% comment %}		                            
+                                        {% form %}
+{% endcomment %}
+                                        <br/>
+                                        <button type="submit" class="btn btn-primary">Apply</button>
+                                        <a href="{% url "backend_server_list" backend_name=form.backend.value%}"<button type="button" class="btn btn-default">Return To Backend Server List</button></a>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}

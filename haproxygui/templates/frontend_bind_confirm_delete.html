@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="form-group">
+    <ul>
+    <h3>Are you sure that you would like to delete?</h3>
+    <form method="POST">
+    	{% csrf_token %}
+    	<button type="submit" class="btn btn-primary">Yes</button>  <a href="{% url "frontend_bind_list" frontend_name=object.frontend_id%}"><button type="button" class="btn btn-default">No</button></a>
+    </form>
+    </ul>
+    </div>
+{% endblock %}

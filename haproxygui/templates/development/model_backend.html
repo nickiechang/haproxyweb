@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block pageheader %}
+                    <h1 class="page-header">Backend</h1>
+{% endblock %}
+{% block panelheading %}
+                            Backend Table
+{% endblock %}
+
+{% block content %}
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Balance Method</th>
+                                            <th>Mode</th>
+                                            <th>Cookie</th>
+                                            <th>Servers</th>
+                                             <th><a href="{% url 'haproxygui.views.action_backend_detail' action='add' backend_name='new' %}"<button type="button" class="btn btn-primary">Add</button></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for row in rows %}
+                                        <tr class="odd gradeX">
+                                            <td><a href="{% url 'haproxygui.views.backend_detail' backend_name=row.name %}">{{ row.name }}</a></td>
+                                            <td>{{ row.balance_method }}</td>
+                                            <td>{{ row.mode }}</td>
+                                            <td class="center">{{ row.cookie }}</td>
+                                            <td><a href="../backend_server/{{ row.name }}/">servers...</a></td>
+                                            <td><a href="{% url 'haproxygui.views.action_backend_detail' action='delete' backend_name=row.name %}">Delete</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+
+{% endblock %}
