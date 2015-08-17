@@ -16,7 +16,7 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-python /tmp/remove_django.py
+python /usr/share/haproxyweb/remove_django.py
 
 [ -f /usr/share/haproxyweb/haproxyweb/production_settings.pyc ] && rm -f /usr/share/haproxyweb/haproxyweb/production_settings.pyc
 [ -f /tmp/Django-1.8.1.tar.gz ] && rm -f /tmp/Django-1.8.1.tar.gz

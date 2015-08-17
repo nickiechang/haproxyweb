@@ -9,6 +9,8 @@ from django.views.generic import ListView,DetailView
 from myforms import *
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 from django.core.urlresolvers import reverse_lazy,reverse
 from django.shortcuts import get_object_or_404
@@ -47,13 +49,14 @@ class FrontendDelete(DeleteView):
     def get_success_url(self):
         return reverse('frontend_list')    
     
-class FrontendUpdate(UpdateView):
+class FrontendUpdate(SuccessMessageMixin,UpdateView):
     model = Frontend
     #queryset = Frontend.objects.all()
     form_class = FrontendForm
     #fields = ['name','default_backend','mode','maxconn','use_ssl']
     template_name = 'frontend_update.html'
     #success_url = reverse_lazy('frontend_updateview')
+    success_message = "Update Successfully"
 
     def get_form(self, form_class):
         form = super(FrontendUpdate, self).get_form(form_class)
@@ -108,13 +111,14 @@ class FrontendBindDelete(DeleteView):
     def get_success_url(self):
         return reverse('frontend_bind_list', kwargs={'frontend_name': self.object.frontend_id})    
     
-class FrontendBindUpdate(UpdateView):
+class FrontendBindUpdate(SuccessMessageMixin, UpdateView):
     model = FrontendBind
     #queryset = FrontendBind.objects.filter(frontend__name=self.args[0])
     form_class = FrontendBindForm
     #fields = ['name','default_backend','mode','maxconn','use_ssl']
     template_name = 'frontend_bind_update.html'
     #success_url = reverse_lazy('frontend_updateview')
+    success_message = "Update Successfully"
 
     def get_success_url(self):
         return reverse('frontend_bind_update', kwargs={'pk': self.object.pk})    
@@ -130,10 +134,11 @@ class BackendCreate(CreateView):
     def get_success_url(self):
         return reverse('backend_list')    
 
-class BackendUpdate(UpdateView):
+class BackendUpdate(SuccessMessageMixin, UpdateView):
     model = BackendCheck
     form_class = BackendCheckForm
     template_name = 'backend_update.html'
+    success_message = "Update Successfully"
     
     def get_form(self, form_class):
         form = super(BackendUpdate, self).get_form(form_class)
@@ -142,7 +147,12 @@ class BackendUpdate(UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super(BackendUpdate, self).get_context_data(**kwargs)
+#        context['status'] = 'Success'
         return context
+
+#    def get_success_message(self, cleaned_data):
+#        return self.success_message % dict(cleaned_data, calculated_field=self.object.calculated_field)
+    
     def get_success_url(self):
         return reverse('backend_update', kwargs={'pk': self.object.pk})    
 
@@ -181,11 +191,12 @@ class BackendServerCreate(CreateView):
     def get_success_url(self):
         return reverse('backend_server_list', kwargs={'backend_name': self.object.backend_id})    
 
-class BackendServerUpdate(UpdateView):
+class BackendServerUpdate(SuccessMessageMixin, UpdateView):
     model = BackendServerOption
     form_class = BackendServerOptionForm
     template_name = 'backend_server_update.html'
-    
+    success_message = "Update Successfully"
+   
     def get_form(self, form_class):
         form = super(BackendServerUpdate, self).get_form(form_class)
         form.fields['name'].widget.attrs['readonly']=True

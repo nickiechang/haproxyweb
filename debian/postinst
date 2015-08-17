@@ -44,28 +44,23 @@ if [ ! -d "/etc/haproxyweb" ];
 then
 	mkdir -p /etc/haproxyweb
 	cp /usr/share/haproxyweb/haproxyweb.ini /etc/haproxyweb/
+	cp /usr/share/haproxyweb/haproxyweb.ini.sqlite /etc/haproxyweb/
 	chown -R haproxyweb:haproxyweb /etc/haproxyweb
 fi
 
 
 [ ! -d "/var/log/haproxyweb" ] && mkdir -p /var/log/haproxyweb
+chown -R haproxyweb:haproxyweb /var/log/haproxyweb
 [ ! -d "/etc/pki" ] && mkdir -p /etc/pki
+chown -R haproxyweb:haproxyweb /etc/pki
 [ ! -d "/etc/pki/CA" ] && mkdir -p /etc/pki/CA
 [ ! -d "/etc/pki/CA/certs" ] && mkdir -p /etc/pki/CA/certs
 [ ! -d "/etc/pki/CA/private" ] && mkdir -p /etc/pki/CA/private
 [ -L "/etc/apache2/sites-enabled/000-default.conf" ] && rm /etc/apache2/sites-enabled/000-default.conf
-
-#RET=`dpkg -l |grep mysql-server*`
-#if [ $? -eq 0 ];
-#if [ -f "/usr/sbin/mysqld" ];
-#then
-#    echo 'mysql-server package exists'
-#else
-#    echo 'mysql-server package not exists'
-#	echo "mysql-server mysql-server/root_password password testlab" | sudo debconf-set-selections
-#	echo "mysql-server mysql-server/root_password_again password testlab" | sudo debconf-set-selections
-#	apt-get -y install mysql-server
-#fi
+[ -f /usr/share/haproxyweb/haproxy_reload.sh ] && chmod +x /usr/share/haproxyweb/haproxy_reload.sh
+[ -f /usr/share/haproxyweb/create_database.sh ] && chmod +x /usr/share/haproxyweb/create_database.sh
+[ -f /tmp/haproxy.cfg ] && chown haproxyweb:haproxyweb /tmp/haproxy.cfg
+[ -f /etc/apache2/ports.conf ] && sed -i 's/Listen 80/Listen 10001/' /etc/apache2/ports.conf
 
 cd /tmp
 tar zxvf Django-1.8.1.tar.gz
@@ -79,42 +74,12 @@ python setup.py install --no-compile -O0 --install-layout=deb
 #make USE_OPENSSL=yes
 #sudo make install
 
-#if [[ ! -z "`mysql -qfsBe "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='haproxy'" 2>&1`" ]];
-#RESULT=$(mysql -N -s -uroot -ptestlab -e "show databases like 'haproxy'")
-#RESULT=`mysql -uroot -ptestlab --skip-column-names -e "SHOW DATABASES LIKE 'haproxy'"`
-#if [ "$RESULT" = "haproxy" ]; 
-#then
-#    echo "Database exist"
-#else
-#    echo "Database not exist"
-#    echo "create database haproxy" | mysql -uroot -ptestlab
-#fi
+#service mysql restart
+#service apache2 restart
+#/usr/share/haproxyweb/haproxy_reload.sh
+#wget http://127.0.0.1:8000/dummy/
+#service haproxy restart
 
-sed -i 's/127\.0\.0\.1/0\.0\.0\.0/g' /etc/mysql/my.cnf
-mysql -uroot -ptestlab -e 'USE mysql; UPDATE `user` SET `Host`="%" WHERE `User`="root" AND `Host`="localhost"; DELETE FROM `user` WHERE `Host` != "%" AND `User`="root"; FLUSH PRIVILEGES;'
-
-mysql -uroot -ptestlab --skip-column-names -e "CREATE DATABASE IF NOT EXISTS haproxy;"
-if [ $(mysql -N -s -uroot -ptestlab -e \
-    "select count(*) from information_schema.tables where \
-        table_schema='haproxy' and table_name='django_session';") -eq 1 ]; 
-then
-    echo "Table exist"
-else
-    echo "Table not exist"
-	python /usr/share/haproxyweb/manage.py migrate
-	#echo "from django.contrib.auth.models import User; User.objects.create_superuser('root', 'root@example.com', 'testlab')" | python manage.py shell
-	#python /usr/share/haproxyweb/manage.py createsuperuser
-fi
-    
-chown -R haproxyweb:haproxyweb /etc/pki
-chown -R haproxyweb:haproxyweb /var/log/haproxyweb
-chown haproxyweb:haproxyweb /tmp/haproxy.cfg
-
-python /usr/share/haproxyweb/manage.py migrate
-service mysql restart
-service apache2 restart
-wget http://127.0.0.1:8000/dummy/
-service haproxy restart
 service rsyslog restart
 
 

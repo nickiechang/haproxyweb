@@ -307,6 +307,7 @@ class BackendServerOptionForm(forms.ModelForm):
             'check_inter': _('Check Interval'),
             'check_fall': _('Check Fall'),
             'cookie_value': _('Cookie Value'),
+            'backup': _('Backup'),
         }
         widgets = {
             'name': forms.TextInput(attrs={'class' : 'form-control'}),
@@ -318,5 +319,6 @@ class BackendServerOptionForm(forms.ModelForm):
             'check_inter': forms.TextInput(attrs={'class' : 'form-control'}),
             'check_fall': forms.NumberInput(attrs={'class' : 'form-control'}),
             'cookie_value': forms.TextInput(attrs={'class' : 'form-control'}),
+            'backup': forms.RadioSelect(choices=[(True, 'Yes'),(False, 'No')]),
             'backend': forms.HiddenInput(),
         }

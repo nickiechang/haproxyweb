@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.conf import settings
+from django.contrib import messages
 
 from haproxygui.models import *
 from myforms import *
@@ -68,14 +69,13 @@ def default(request):
     #return HttpResponse("You're voting on question")
     #rows = Default.objects.all()
     #return render(request,'development/default.html',{'rows': rows})
-    logger.debug("Test")
     defaultmodel = get_object_or_404(Default,id=1)
-    logger.debug(defaultmodel.timeout_connect)
     form = DefaultForm(request.POST or None, instance=defaultmodel)
     if form.is_valid():
         defaultmodel = form.save()
-        logger.debug(defaultmodel.timeout_connect)
+        messages.success(request, 'Success')
         return render(request,'default.html',{'form': form})
+        #return render(request,'default.html',{'form': form,'message': 'Success'})
     return render(request,'default.html',{'form': form})
 
 @login_required

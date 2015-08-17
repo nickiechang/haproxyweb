@@ -1,3 +1,9 @@
+haproxyweb (1.1) unstable; urgency=low
+
+  * Add backup.
+
+ -- root <root@unknown>  Fri, 30 July 2015 16:57:46 +0800
+
 haproxyweb (1.0) unstable; urgency=low
 
   * Initial Release.

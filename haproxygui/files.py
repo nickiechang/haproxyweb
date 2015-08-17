@@ -161,6 +161,8 @@ def write_haproxycfg():
                     cfgfile.write(' weight ' + str(s.weight))
                 if s.maxconn:
                     cfgfile.write(' maxconn ' + str(s.maxconn))
+                if s.backup:
+                    cfgfile.write(' backup ')
                 cfgfile.write(os.linesep)
 
         cfgfile.write('listen stats :8888' + os.linesep)            

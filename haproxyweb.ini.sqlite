@@ -1,0 +1,7 @@
+[database]
+NAME: /etc/haproxyweb/db.sqlite3
+ENGINE: django.db.backends.sqlite3
+USER: root
+PASSWORD: testlab
+HOST: 127.0.0.1
+PORT: 3306

@@ -109,6 +109,7 @@ class BackendServerOption(BackendServer):
     check_inter = models.CharField(max_length=16,default='2s')
     check_fall = models.IntegerField(default=3)
     cookie_value = models.CharField(max_length=16)
+    backup = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'backend_server_option'

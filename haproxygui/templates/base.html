@@ -96,7 +96,12 @@
 			<!-- The justified navigation menu is meant for single line per list item.
 			Multiple lines will require custom code not provided by Bootstrap. -->
 			<div class="masthead">
-				<h3 class="text-muted">{{ message|default_if_none:"" }}</h3>
+				{% if messages %}
+	    			{% for message in messages %}
+			            <div id="my_alert" class="alert" role="alert" data-value={{ message.level_tag|default_if_none:"" }}>{{ message }}</div>
+	    			{% endfor %}
+				{% endif %}
+				<!-- <h3 class="text-muted">{{ message|default_if_none:"" }}</h3> -->
 				<nav>
 				  <ul class="nav nav-justified">
 				    <li><a href="/status/">Status</a></li>
@@ -156,6 +161,26 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/dist/js/sb-admin-2.js"></script>
+    <script>
+    function showToast(selector, style, innerHTML)
+	{
+	    selector.removeClass('alert-success alert-info alert-warning alert-danger');
+	    selector.addClass(style);
+	 
+	    /*selector[0].innerHTML = innerHTML;*/
+	    selector.fadeTo(2000, 500).slideUp(500, function(){
+	        selector.hide();
+	    });
+	}
+	$(document).ready(function(){
+		if($('#my_alert').data('value') == "success"){
+			showToast($("#my_alert"),'alert-success',$('#my_alert').data('value'));
+		}
+		if($('#my_alert').data('value') == "error"){
+			showToast($("#my_alert"),'alert-danger',$('#my_alert').data('value'));
+		}
+	});
+    </script>
     {% block script %}
   	{% endblock %}
 
